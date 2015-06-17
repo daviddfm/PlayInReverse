@@ -67,10 +67,10 @@
 			// all the magic happens here:
 			tracks.items.sort(function (a, b) {
 				if (a.added_at > b.added_at) {
-					return 1;
+					return -1;
 				}
 				if (a.added_at < b.added_at) {
-					return -1;
+					return 1;
 				}
 				// a must be equal to b
 				return 0;
