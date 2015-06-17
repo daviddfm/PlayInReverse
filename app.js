@@ -1,6 +1,6 @@
 (function(exports) {
-	client_id = '17f243b944f14386af940a735d5c70c7';
-	redirect_uri = 'https://nachiketapte.com/spotify-reverse';
+	client_id = 'cfd17821fa704f9d815a03cd2a80abaa';
+	redirect_uri = 'https://stormy-ocean-3787.herokuapp.com/';
 	
 	g_access_token = '';
 	g_username = '';
