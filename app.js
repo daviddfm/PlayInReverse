@@ -152,7 +152,7 @@ function getTracksForPlaylist(username, playlist, callback) {
 	});
 }
 
-function createOrFindPlaylist(playlist, callback) {
+function createOrFindPlaylist(username, playlist, callback) {
 	var li = $('#playlist-list > li > a[data-id="' + playlist + '"');
 	playlist = li.attr('data-name') + ' Now';
 
@@ -184,7 +184,7 @@ function createOrFindPlaylist(playlist, callback) {
 function setTracksForPlaylist(username, playlist, tracks, callback) {
 	console.log('setTracksForPlaylist', tracks, playlist);
 
-	playlist = createOrFindPlaylist(playlist, function(playlist) {
+	playlist = createOrFindPlaylist(username, playlist, function(playlist) {
 
 		var url = 'https://api.spotify.com/v1/users/' + username + '/playlists/' + playlist + '/tracks';
 
