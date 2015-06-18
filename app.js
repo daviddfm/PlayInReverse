@@ -15,10 +15,7 @@
 
 	exports.startApp = function() {
 		console.log('start app.');
-		$('#start').click(function() {
-			doLogin(function() {});
-			}
-		);
+		doLogin(function() {});
 		// try getting an access_token
 		var hash = location.hash.replace(/#/g, '');
 		var all = hash.split('&');
