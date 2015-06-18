@@ -153,12 +153,13 @@ function getTracksForPlaylist(username, playlist, callback) {
 }
 
 function createOrFindPlaylist(playlist, callback) {
-	playlist = playlist + ' Now';
+	var li = $('#playlist-list > li > a[data-id="' + playlist + '"');
+	playlist = li.attr('data-name') + ' Now';
 
 	console.log('createOrFindPlaylist', playlist);
 
-	var li = $('#playlist-list > li > a[data-name="' + playlist + '"');
-	if ( li != null ) {
+	li = $('#playlist-list > li > a[data-name="' + playlist + '"');
+	if ( li.length == 1 ) {
 		callback(li.attr('data-id'));
 	}
 
