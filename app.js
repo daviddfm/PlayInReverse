@@ -50,7 +50,7 @@
 					console.log('got playlist', playlist);
 
 					$.each(playlist.items, function(i, row) {
-						$('#playlist-list').append('<li><a href="#" data-id="' + row.id + '">' + row.name + ' (' + row.tracks.total + ' tracks)</a></li>');
+						$('#playlist-list').append('<li><a href="#" data-id="' + row.id + '" data-name="' + row.name + '">' + row.name + ' (' + row.tracks.total + ' tracks)</a></li>');
 					});
 					
 					//$('#playlist-list').listview('refresh');
@@ -152,24 +152,54 @@ function getTracksForPlaylist(username, playlist, callback) {
 	});
 }
 
-function setTracksForPlaylist(username, playlist, tracks, callback) {
-	console.log('setTracksForPlaylist', tracks, playlist);
-	var url = 'https://api.spotify.com/v1/users/' + username + '/playlists/' + playlist + '/tracks';
-		
+function createOrFindPlaylist(playlist, callback) {
+	console.log('createOrFindPlaylist', playlist);
+
+	var li = $('#playlist-list > li > a[data-name="' + playlist '"');
+	if ( li != null ) {
+		callback(li.attr('data-id'));
+	}
+
+	var url = 'https://api.spotify.com/v1/users/' + username + '/playlists/';
 	$.ajax(url, {
-		method: 'PUT',
-		data: JSON.stringify(tracks),
+		method: 'POST',
+		data: JSON.stringify({ name: playlist + " Now", public: true}),
 		headers: {
 			'Authorization': 'Bearer ' + g_access_token,
 			'Accept': 'application/json',
 			'Content-Type': 'application/json'
 		},
 		success: function(r) {
-			callback(r);
+			callback(r.id);
 		},
 		error: function(r) {
 			callback(null);
 		}
+	});
+}
+
+function setTracksForPlaylist(username, playlist, tracks, callback) {
+	console.log('setTracksForPlaylist', tracks, playlist);
+
+	playlist = createOrFindPlaylist(playlist, function(playlist) {
+
+		var url = 'https://api.spotify.com/v1/users/' + username + '/playlists/' + playlist + '/tracks';
+
+		$.ajax(url, {
+			method: 'PUT',
+			data: JSON.stringify(tracks),
+			headers: {
+				'Authorization': 'Bearer ' + g_access_token,
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			success: function(r) {
+				callback(r);
+			},
+			error: function(r) {
+				callback(null);
+			}
+		});
 	});
 }
 
