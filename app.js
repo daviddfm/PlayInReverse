@@ -155,7 +155,7 @@ function getTracksForPlaylist(username, playlist, callback) {
 function createOrFindPlaylist(playlist, callback) {
 	console.log('createOrFindPlaylist', playlist);
 
-	var li = $('#playlist-list > li > a[data-name="' + playlist '"');
+	var li = $('#playlist-list > li > a[data-name="' + playlist + '"');
 	if ( li != null ) {
 		callback(li.attr('data-id'));
 	}
