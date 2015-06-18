@@ -153,6 +153,8 @@ function getTracksForPlaylist(username, playlist, callback) {
 }
 
 function createOrFindPlaylist(playlist, callback) {
+	playlist = playlist + ' Now';
+
 	console.log('createOrFindPlaylist', playlist);
 
 	var li = $('#playlist-list > li > a[data-name="' + playlist + '"');
@@ -163,7 +165,7 @@ function createOrFindPlaylist(playlist, callback) {
 	var url = 'https://api.spotify.com/v1/users/' + username + '/playlists/';
 	$.ajax(url, {
 		method: 'POST',
-		data: JSON.stringify({ name: playlist + " Now", public: true}),
+		data: JSON.stringify({ name: playlist, public: true}),
 		headers: {
 			'Authorization': 'Bearer ' + g_access_token,
 			'Accept': 'application/json',
