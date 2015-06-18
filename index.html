@@ -1,6 +1,7 @@
 <html>
 <head>
-<title>PlayInReverse</title>
+<title>PlaySort</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.js"></script>
 <script type="text/javascript" src="app.js"></script>
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
@@ -25,29 +26,33 @@
 </head>
 <body onload="startApp()">
 
-	<!-- Main jumbotron for a primary marketing message or call to action -->
-	<div class="jumbotron">
-		<div class="container">
-			<h2><i class="fa fa-refresh"></i>&nbsp;SortPlaylists - sort a Spotify playlist by date</h2>
-			<p>
-				Browse the source code on <a href="https://github.com/daviddfm/PlayInReverse">GitHub</a>
-			</p>
-		</div>
-	</div>
-
 	<div class="container">
+		<!-- Main jumbotron for a primary marketing message or call to action -->
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-xs-12">
+		    	<div class="jumbotron">
+					<div class="container">
+						<h2><i class="fa fa-refresh"></i>&nbsp;PlaySort - just sort them already!</h2>
+						<p>
+							Browse the source code on <a href="https://github.com/daviddfm/PlayInReverse">GitHub</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12">
 				<p><button class="btn btn-lg btn-primary btn" id="start">Choose a Spotify playlist</button></p>
 			</div>
 		</div>
 		
 		<div class="row">			
-			<div class="col-md-12">
+			<div class="col-xs-12">
 				<p><a class="btn btn-lg btn-primary btn-success" style="display: none;" id="playlistlink">View playlist in spotify</a></p>
 			</div>
 			
-			<div class="col-md-12">
+			<div class="col-xs-12">
 				<p><ul data-role="listview" data-inset="true" id="playlist-list" data-theme="a" /></p>
 			</div>
 		</div>
