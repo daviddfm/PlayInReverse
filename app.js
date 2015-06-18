@@ -50,7 +50,7 @@
 					console.log('got playlist', playlist);
 
 					$.each(playlist.items, function(i, row) {
-						$('#playlist-list').append('<li><a href="#" class="btn btn-block btn-lg" data-id="' + row.id + '" data-name="' + row.name + '">' + row.name + ' (' + row.tracks.total + ' tracks)</a></li>');
+						$('#playlist-list').append('<li><a href="#" class="btn btn-primary btn-block btn-lg" data-id="' + row.id + '" data-name="' + row.name + '">' + row.name + ' (' + row.tracks.total + ' tracks)</a></li>');
 					});
 					
 					//$('#playlist-list').listview('refresh');
