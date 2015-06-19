@@ -119,14 +119,15 @@ function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
 					var part1 = oldTracks.slice(0,iOld).concat(oldTracks.slice(iOld+1,oldTracks.length-1));
 					var part2 = part1.slice(0,i).concat([oldTracks[iOld]]).concat(part1.slice(i+1,part1.length-1));
 
-					sortTracks(username, playlistId, part2, newTracks, null);
+					sortTracks(username, playlistId, part2, newTracks, callback);
 				}
 			);
+
+			return;
 		}
 	});
 
-	if ( callback )
-		callback(true);
+	callback(true);
 }
 
 function moveTrackFromTo(username, playlist, oldI, newI ) {
