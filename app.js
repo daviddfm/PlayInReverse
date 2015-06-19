@@ -99,13 +99,19 @@
 	});
 
 function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
+	console.log("sortTracks " + playlistId);
+
 	$.each(newTracks, function (i, row) {
 		if (row.track.id != oldTracks[i].track.id) {
+			console.log("track " + i + "in wrong position");
+			
+			var iOld = oldTracks.findIndex(function ( element, index, array ) {
+					return ( element.track.id == row.track.id );
+				});
+
 			moveTrackFromTo(
 				username, playlistId,
-				oldTracks.findIndex(function ( element, index, array ) {
-					return ( element.track.id == row.track.id );
-				}),
+				iOld,
 				i,
 				function (resp) {
 					if ( resp == null) return;
