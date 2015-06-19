@@ -116,7 +116,10 @@ function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
 				function (resp) {
 					if ( resp == null) return;
 
-					sortTracks(username, playlistId, oldTracks, newTracks, null);
+					var part1 = oldTracks.slice(0,iOld).concat(oldTracks.slice(iOld+1,oldTracks.length-1));
+					var part2 = part1.slice(0,i).concat([oldTracks[iOld]).concat(part1.slice(i+1,part1.length-1));
+
+					sortTracks(username, playlistId, part2, newTracks, null);
 				}
 			);
 		}
@@ -133,7 +136,7 @@ function moveTrackFromTo(username, playlist, oldI, newI ) {
 
 	$.ajax(url, {
 		method: 'PUT',
-		data: JSON.stringify({ range_start: oldI, range_length: 1, insert_before: newI }),
+		data: JSON.stringify({ "range_start": oldI, "range_length": 1, "insert_before": newI }),
 		headers: {
 			'Authorization': 'Bearer ' + g_access_token,
 			'Accept': 'application/json',
