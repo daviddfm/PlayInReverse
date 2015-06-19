@@ -49,6 +49,17 @@
 				getPlaylists(username, function(playlist) {
 					console.log('got playlist', playlist);
 
+                    playlist.sort(function(a,b) {
+                        if (a.name > b.name) {
+                            return 1;
+                        }
+                        if (a.name < b.name) {
+                            return -1;
+                        }
+                        // a must be equal to b
+                        return 0;
+                    });
+
 					$.each(playlist.items, function(i, row) {
 						$('#playlist-list').append('<li><a href="#" class="btn btn-primary btn-block btn-lg" data-id="' + row.id + '" data-name="' + row.name + '">' + row.name + ' (' + row.tracks.total + ' tracks)</a></li>');
 					});
