@@ -130,14 +130,16 @@ function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
 	callback(true);
 }
 
-function moveTrackFromTo(username, playlist, oldI, newI ) {
-	console.log('moveTrackFromTo', oldI, newI, playlist);
+function moveTrackFromTo(username, playlist, oldI, newI, callback ) {
+    var json = JSON.stringify({ "range_start": oldI, "insert_before": newI });
+
+	console.log('moveTrackFromTo ', json );
 
 	var url = 'https://api.spotify.com/v1/users/' + username + '/playlists/' + playlist + '/tracks';
 
 	$.ajax(url, {
 		method: 'PUT',
-		data: JSON.stringify({ "range_start": oldI, "range_length": 1, "insert_before": newI }),
+		data: json,
 		headers: {
 			'Authorization': 'Bearer ' + g_access_token,
 			'Accept': 'application/json',
