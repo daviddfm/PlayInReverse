@@ -60,10 +60,14 @@
 	}
 
 	$(document).on('click', '#playlist-list li a', function (e) {
+		var playlistA = $(this);
+
 		playlistId = $(this).attr('data-id');
 		playlistName = $(this).attr('data-name');
 
 		console.log("Sorting " + playlistName);
+		$(this).text(" Sorting... ");
+
 
 		getTracksForPlaylist(g_username, playlistId, function(tracks) {
 
@@ -84,11 +88,9 @@
 			var newTracks = tracks.items;
 			var didSort;
 
-			$(this).text(" Sorting... ");
-
 			sortTracks(g_username, playlistId, oldTracks, newTracks, function(resp) {
 				console.log(resp);
-				$(this).text( "Sorted" );
+				playlistA.text( "Sorted" );
 				window.setTimeout(function() {
 					$(this).text( playlistName );
 				}, 3000 );
