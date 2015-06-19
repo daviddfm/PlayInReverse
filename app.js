@@ -1,6 +1,6 @@
 (function(exports) {
 	client_id = 'cfd17821fa704f9d815a03cd2a80abaa';
-	redirect_uri = 'https://stormy-ocean-3787.herokuapp.com/';
+	redirect_uri = 'https://spotify.dawson.fm/';
 	
 	g_access_token = '';
 	g_username = '';
@@ -123,7 +123,7 @@ function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
 				}
 			);
 
-			return;
+			return false;
 		}
 	});
 
