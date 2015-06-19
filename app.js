@@ -67,7 +67,7 @@
 
 		getTracksForPlaylist(g_username, playlistId, function(tracks) {
 
-			var oldTracks = tracks.items.clone();
+			var oldTracks = JSON.parse(JSON.stringify(tracks.items));
 
 			// all the magic happens here:
 			tracks.items.sort(function (a, b) {
