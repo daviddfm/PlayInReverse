@@ -92,7 +92,7 @@
 				console.log(resp);
 				playlistA.text( "Sorted" );
 				window.setTimeout(function() {
-					$(this).text( playlistName );
+					playlistA.text( playlistName );
 				}, 3000 );
 			});
 		});
@@ -104,7 +104,7 @@ function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
 	$.each(newTracks, function (i, row) {
 		if (row.track.id != oldTracks[i].track.id) {
 			console.log("track " + i + "in wrong position");
-			
+
 			var iOld = oldTracks.findIndex(function ( element, index, array ) {
 					return ( element.track.id == row.track.id );
 				});
@@ -116,11 +116,14 @@ function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
 				function (resp) {
 					if ( resp == null) return;
 
-					sortTracks(username, playlistId, oldTracks, newTracks, callback);
+					sortTracks(username, playlistId, oldTracks, newTracks, null);
 				}
 			);
 		}
 	});
+
+	if ( callback )
+		callback(true);
 }
 
 function moveTrackFromTo(username, playlist, oldI, newI ) {
