@@ -72,9 +72,10 @@
 		getTracksForPlaylist(g_username, playlistId, function(tracks) {
 
 			var oldTracks = JSON.parse(JSON.stringify(tracks.items));
+			var newTracks = tracks.items;
 
 			// all the magic happens here:
-			tracks.items.sort(function (a, b) {
+			newTracks.sort(function (a, b) {
 				if (a.added_at > b.added_at) {
 					return 1;
 				}
@@ -85,7 +86,6 @@
 				return 0;
 			});
 
-			var newTracks = tracks.items;
 			var didSort;
 
 			sortTracks(g_username, playlistId, oldTracks, newTracks, function(resp) {
