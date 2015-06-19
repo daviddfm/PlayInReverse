@@ -15,7 +15,10 @@
 
 	exports.startApp = function() {
 		console.log('start app.');
-		doLogin(function() {});
+		$('#start').click(function() {
+			doLogin(function() {});
+			}
+		);
 		// try getting an access_token
 		var hash = location.hash.replace(/#/g, '');
 		var all = hash.split('&');
@@ -58,9 +61,14 @@
 
 	$(document).on('click', '#playlist-list li a', function (e) {
 		playlistId = $(this).attr('data-id');
-		console.log("reversing " + playlistId);
+		playlistName = $(this).attr('data-name');
+
+		console.log("Sorting " + playlistName);
 
 		getTracksForPlaylist(g_username, playlistId, function(tracks) {
+
+			var oldTracks = tracks.items.clone();
+
 			// all the magic happens here:
 			tracks.items.sort(function (a, b) {
 				if (a.added_at > b.added_at) {
@@ -72,29 +80,66 @@
 				// a must be equal to b
 				return 0;
 			});
-			
-			var reversed = {
-				uris : []
-			}
-			
-			// construct a reversed track list
-			$.each(tracks.items, function(i, row) {
-				reversed.uris.push("spotify:track:" + row.track.id);
-			});
-			
-			setTracksForPlaylist(g_username, playlistId, reversed, function(resp) {
+
+			var newTracks = tracks.items;
+			var didSort;
+
+			$(this).text(" Sorting... ");
+
+			sortTracks(g_username, playlistId, oldTracks, newTracks, function(resp) {
 				console.log(resp);
-				alert("Success!")
-				
-				$('#playlistlink').show();
-				$('#playlistlink').attr('href', 'spotify:user:'+g_username+':playlist:'+playlistId);
+				$(this).text( "Sorted" );
+				window.setTimeout(function() {
+					$(this).text( playlistName );
+				}, 3000 );
 			});
 		});
 	});
 
+function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
+	$.each(newTracks, function (i, row) {
+		if (row.track.id != oldTracks[i].track.id) {
+			moveTrackFromTo(
+				username, playlistId,
+				oldTracks.findIndex(function ( element, index, array ) {
+					return ( element.track.id == row.track.id );
+				}),
+				i,
+				function (resp) {
+					if ( resp == null) return;
+
+					sortTracks(username, playlistId, oldTracks, newTracks, callback);
+				}
+			);
+		}
+	});
+}
+
+function moveTrackFromTo(username, playlist, oldI, newI ) {
+	console.log('moveTrackFromTo', oldI, newI, playlist);
+
+	var url = 'https://api.spotify.com/v1/users/' + username + '/playlists/' + playlist + '/tracks';
+
+	$.ajax(url, {
+		method: 'PUT',
+		data: JSON.stringify({ range_start: oldI, range_length: 1, insert_before: newI }),
+		headers: {
+			'Authorization': 'Bearer ' + g_access_token,
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		success: function(r) {
+			callback(r);
+		},
+		error: function(r) {
+			callback(null);
+		}
+	});
+}
 
 
-function getUsername(callback) {
+
+	function getUsername(callback) {
 	console.log('getUsername');
 	var url = 'https://api.spotify.com/v1/me';
 	$.ajax(url, {
