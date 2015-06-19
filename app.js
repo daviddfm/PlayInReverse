@@ -121,16 +121,21 @@ function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
 				});
 
 			moveTrackFromTo(
-				username, playlistId,
+				username,
+                playlistId,
 				iOld,
 				i,
 				function (resp) {
 					if ( resp == null) return;
 
-					var part1 = oldTracks.slice(0,iOld).concat(oldTracks.slice(iOld+1,oldTracks.length-1));
-					var part2 = part1.slice(0,i).concat([oldTracks[iOld]]).concat(part1.slice(i+1,part1.length-1));
+					var minusOne = oldTracks.slice(0,iOld).concat(oldTracks.slice(iOld+1));
 
-					sortTracks(username, playlistId, part2, newTracks, callback);
+                    if (i > iOld)
+                        i = i - 1;
+                    
+					var oldSorted = minusOne.slice(0,i).concat([oldTracks[iOld]]).concat(minusOne.slice(i));
+
+					sortTracks(username, playlistId, oldSorted, newTracks, callback);
 				}
 			);
 
