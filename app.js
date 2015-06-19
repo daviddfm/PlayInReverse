@@ -88,10 +88,10 @@
 			// all the magic happens here:
 			newTracks.sort(function (a, b) {
 				if (a.added_at > b.added_at) {
-					return 1;
+					return -1;
 				}
 				if (a.added_at < b.added_at) {
-					return -1;
+					return 1;
 				}
 				// a must be equal to b
 				return 0;
@@ -132,7 +132,7 @@ function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
 
                     if (i > iOld)
                         i = i - 1;
-                    
+
 					var oldSorted = minusOne.slice(0,i).concat([oldTracks[iOld]]).concat(minusOne.slice(i));
 
 					sortTracks(username, playlistId, oldSorted, newTracks, callback);
