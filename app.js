@@ -49,7 +49,7 @@
 				getPlaylists(username, function(playlist) {
 					console.log('got playlist', playlist);
 
-                    playlist.sort(function(a,b) {
+                    playlist.items.sort(function(a,b) {
                         if (a.name > b.name) {
                             return 1;
                         }
