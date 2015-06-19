@@ -8,7 +8,7 @@
 	var doLogin = function(callback) {
 		var url = 'https://accounts.spotify.com/authorize?client_id=' + client_id +
 			'&response_type=token' +
-			'&scope=playlist-read-private%20playlist-modify%20playlist-modify-private' +
+			'&scope=' + encodeURIComponent('playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private') +
 			'&redirect_uri=' + encodeURIComponent(redirect_uri);
 		window.location = url;
 	}
@@ -149,6 +149,7 @@ function moveTrackFromTo(username, playlist, oldI, newI, callback ) {
 			callback(r);
 		},
 		error: function(r) {
+            console.log(r.responseText);
 			callback(null);
 		}
 	});
@@ -168,6 +169,7 @@ function moveTrackFromTo(username, playlist, oldI, newI, callback ) {
 			callback(r.id);
 		},
 		error: function(r) {
+            console.log(r.responseText);
 			callback(null);
 		}
 	});
@@ -187,6 +189,7 @@ function getPlaylists(username, callback) {
 			callback(r);
 		},
 		error: function(r) {
+            console.log(r.responseText);
 			callback(null);
 		}
 	});
@@ -206,6 +209,7 @@ function getTracksForPlaylist(username, playlist, callback) {
 			callback(r);
 		},
 		error: function(r) {
+            console.log(r.responseText);
 			callback(null);
 		}
 	});
@@ -235,6 +239,7 @@ function createOrFindPlaylist(username, playlist, callback) {
 			callback(r.id);
 		},
 		error: function(r) {
+            console.log(r.responseText);
 			callback(null);
 		}
 	});
@@ -259,6 +264,7 @@ function setTracksForPlaylist(username, playlist, tracks, callback) {
 				callback(r);
 			},
 			error: function(r) {
+                console.log(r.responseText);
 				callback(null);
 			}
 		});
