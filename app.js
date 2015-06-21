@@ -294,27 +294,24 @@ function copyPlaylist(username, element, tracks, callback) {
 function setTracksForPlaylist(username, playlist, tracks, callback) {
 	console.log('setTracksForPlaylist', tracks, playlist);
 
-	playlist = createOrFindPlaylist(username, playlist, function(playlist) {
+    var url = 'https://api.spotify.com/v1/users/' + username + '/playlists/' + playlist + '/tracks';
 
-		var url = 'https://api.spotify.com/v1/users/' + username + '/playlists/' + playlist + '/tracks';
-
-		$.ajax(url, {
-			method: 'PUT',
-			data: JSON.stringify(tracks),
-			headers: {
-				'Authorization': 'Bearer ' + g_access_token,
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			success: function(r) {
-				callback(r);
-			},
-			error: function(r) {
-                console.log(r.responseText);
-				callback(null);
-			}
-		});
-	});
+    $.ajax(url, {
+        method: 'PUT',
+        data: JSON.stringify(tracks),
+        headers: {
+            'Authorization': 'Bearer ' + g_access_token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        success: function(r) {
+            callback(r);
+        },
+        error: function(r) {
+            console.log(r.responseText);
+            callback(null);
+        }
+    });
 }
 
 })(window);
