@@ -180,8 +180,9 @@ function moveTrackFromTo(username, playlist, oldI, newI, callback ) {
 
 	var url = 'https://api.spotify.com/v1/users/' + username + '/playlists/' + playlist + '/tracks';
 
-    callback(r);
+    callback(url);
     return;
+    
 	$.ajax(url, {
 		method: 'PUT',
 		data: json,
