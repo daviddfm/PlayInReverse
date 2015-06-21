@@ -91,9 +91,8 @@
 
             sortTracks(username, playlistId, oldTracks, newTracks, function(resp) {
 				console.log(resp);
-				playlistA.text( "Sorted" );
 				window.setTimeout(function() {
-					playlistA.text( playlistName );
+					refreshPlaylists();
 				}, 3000 );
 			});
 		});
@@ -137,7 +136,9 @@ function refreshPlaylists() {
             return 0;
         });
 
+		$('#sort-debug').addClass('hide');
         $('#playlist-list').html('');
+		$('#playlist-list').removeClass('hide');
 
         $.each(playlist.items, function(i, row) {
             $('#playlist-list').append('<li><div class="btn-group btn-group-justified" data-owner="' + row.owner.id + '" data-id="' + row.id + '" data-name="' + row.name + '"><a href="#" class="sort btn btn-primary btn-lg">' + row.name + ' (' + row.tracks.total + ' tracks) v</a><a href="#" class="copy btn btn-primary btn-lg">Copy</a></div></li>');
@@ -178,7 +179,7 @@ function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
 
 					var oldSorted = minusOne.slice(0,i).concat([oldTracks[iOld]]).concat(minusOne.slice(i));
 
-					sortTracks(username, playlistId, oldSorted, newTracks, callback);
+					window.setTimeout(sortTracks(username, playlistId, oldSorted, newTracks, callback), 500);
 				}
 			);
 
