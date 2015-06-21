@@ -46,7 +46,7 @@
 				console.log('got username', username);
 				g_username = username;
 
-                refreshPLaylists();
+				refreshPlaylists();
 			});
 		}
 	}
