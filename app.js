@@ -75,12 +75,13 @@
 
 		playlistId = $(this).parent().attr('data-id');
 		playlistName = $(this).parent().attr('data-name');
+        username = $(this).parent().attr('data-owner');
 
 		console.log("Sorting " + playlistName);
 		$(this).text(" Sorting... ");
 
 
-		getTracksForPlaylist(g_username, playlistId, function(tracks) {
+		getTracksForPlaylist(username, playlistId, function(tracks) {
 
 			var oldTracks = JSON.parse(JSON.stringify(tracks.items));
 			var newTracks = tracks.items;
@@ -99,7 +100,7 @@
 
 			var didSort;
 
-			sortTracks(g_username, playlistId, oldTracks, newTracks, function(resp) {
+			sortTracks(username, playlistId, oldTracks, newTracks, function(resp) {
 				console.log(resp);
 				playlistA.text( "Sorted" );
 				window.setTimeout(function() {
