@@ -273,7 +273,7 @@ function copyPlaylist(username, playlist, tracks, callback) {
 
     // construct a reversed track list
     $.each(tracks.items, function(i, row) {
-        trackList.uris.concat(["spotify:track:" + row.track.id]);
+        trackList.uris = trackList.uris.concat(["spotify:track:" + row.track.id]);
     });
 
     var url = 'https://api.spotify.com/v1/users/' + username + '/playlists/';
@@ -286,7 +286,7 @@ function copyPlaylist(username, playlist, tracks, callback) {
 			'Content-Type': 'application/json'
 		},
 		success: function(r) {
-            setTracksForPlaylist(username, playlist, tracks, callback);
+            setTracksForPlaylist(username, playlist, trackList, callback);
 		},
 		error: function(r) {
             console.log(r.responseText);
