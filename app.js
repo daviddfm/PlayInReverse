@@ -121,7 +121,7 @@
 
         getTracksForPlaylist(username, playlistId, function(tracks) {
 
-            copyPlaylist(g_username, $(this).parent(), tracks, function(resp) {
+            copyPlaylist(g_username, playlistA.parent(), tracks, function(resp) {
                 console.log(resp);
                 playlistA.text( "Done" );
                 window.setTimeout(function() {
@@ -258,7 +258,7 @@ function getTracksForPlaylist(username, playlist, callback) {
 }
 
 function copyPlaylist(username, element, tracks, callback) {
-	playlist = element.parent().attr('data-name') + ' Copy';
+	playlist = element.attr('data-name') + ' Copy';
 
 	console.log('copyPlaylist', playlist);
 
