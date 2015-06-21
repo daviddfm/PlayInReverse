@@ -61,7 +61,7 @@
                     });
 
 					$.each(playlist.items, function(i, row) {
-						$('#playlist-list').append('<li><div class="btn-group btn-group-justified"><a href="#" class="sort btn btn-primary btn-lg" data-id="' + row.id + '" data-name="' + row.name + '">' + row.name + ' (' + row.tracks.total + ' tracks)</a><a href="#" class="copy btn btn-primary btn-lg" data-id="' + row.id + '" data-name="' + row.name + '">Copy</a></div></li>');
+						$('#playlist-list').append('<li><div class="btn-group btn-group-justified" data-owner="' + row.owner.id + '" data-id="' + row.id + '" data-name="' + row.name + '"><a href="#" class="sort btn btn-primary btn-lg">' + row.name + ' (' + row.tracks.total + ' tracks)</a><a href="#" class="copy btn btn-primary btn-lg">Copy</a></div></li>');
 					});
 					
 					//$('#playlist-list').listview('refresh');
@@ -73,8 +73,8 @@
 	$(document).on('click', '#playlist-list li a.sort', function (e) {
 		var playlistA = $(this);
 
-		playlistId = $(this).attr('data-id');
-		playlistName = $(this).attr('data-name');
+		playlistId = $(this).parent.attr('data-id');
+		playlistName = $(this).parent.attr('data-name');
 
 		console.log("Sorting " + playlistName);
 		$(this).text(" Sorting... ");
@@ -112,15 +112,16 @@
     $(document).on('click', '#playlist-list li a.copy', function (e) {
         var playlistA = $(this);
 
-        playlistId = $(this).attr('data-id');
-        playlistName = $(this).attr('data-name');
+        playlistId = $(this).parent.attr('data-id');
+        playlistName = $(this).parent.attr('data-name');
+        username = $(this).parent.attr('data-owner');
 
         console.log("Copying " + playlistName);
         playlistA.text( "Copying..." );
 
-        getTracksForPlaylist(g_username, playlistId, function(tracks) {
+        getTracksForPlaylist(username, playlistId, function(tracks) {
 
-            copyPlaylist(g_username, playlistId, tracks, function(resp) {
+            copyPlaylist(g_username, $(this).parent, tracks, function(resp) {
                 console.log(resp);
                 playlistA.text( "Done" );
                 window.setTimeout(function() {
@@ -256,16 +257,10 @@ function getTracksForPlaylist(username, playlist, callback) {
 	});
 }
 
-function copyPlaylist(username, playlist, tracks, callback) {
-	var li = $('#playlist-list > li > a.copy[data-id="' + playlist + '"]');
-	playlist = li.attr('data-name') + ' Copy';
+function copyPlaylist(username, element, tracks, callback) {
+	playlist = element.attr('data-name') + ' Copy';
 
 	console.log('copyPlaylist', playlist);
-
-	li = $('#playlist-list > li > a.copy[data-name="' + playlist + '"]');
-	if ( li.length == 1 ) {
-		callback(li.attr('data-id'));
-	}
 
     var trackList = {
         uris : []
