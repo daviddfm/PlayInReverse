@@ -179,7 +179,7 @@ function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
 
 					var oldSorted = minusOne.slice(0,i).concat([oldTracks[iOld]]).concat(minusOne.slice(i));
 
-					window.setTimeout(sortTracks(username, playlistId, oldSorted, newTracks, callback), 500);
+					window.setTimeout(function() { sortTracks(username, playlistId, oldSorted, newTracks, callback) }, 500);
 				}
 			);
 
