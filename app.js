@@ -181,7 +181,7 @@ function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
 
 					var oldSorted = minusOne.slice(0,i).concat([oldTracks[iOld]]).concat(minusOne.slice(i));
 
-					window.setTimeout(function() { sortTracks(username, playlistId, oldSorted, newTracks, callback) }, 500);
+					sortTracks(username, playlistId, oldSorted, newTracks, callback);
 				}
 			);
 
@@ -200,9 +200,6 @@ function moveTrackFromTo(username, playlist, oldI, newI, callback ) {
 	console.log('moveTrackFromTo ', json );
 
 	var url = 'https://api.spotify.com/v1/users/' + username + '/playlists/' + playlist + '/tracks';
-
-    callback(url);
-    return;
 
 	$.ajax(url, {
 		method: 'PUT',
