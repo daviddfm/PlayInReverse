@@ -257,12 +257,12 @@ function getTracksForPlaylist(username, playlist, callback) {
 }
 
 function copyPlaylist(username, playlist, tracks, callback) {
-	var li = $('#playlist-list > li > a.copy[data-id="' + playlist + '"');
+	var li = $('#playlist-list > li > a.copy[data-id="' + playlist + '"]');
 	playlist = li.attr('data-name') + ' Copy';
 
 	console.log('copyPlaylist', playlist);
 
-	li = $('#playlist-list > li > a.copy[data-name="' + playlist + '"');
+	li = $('#playlist-list > li > a.copy[data-name="' + playlist + '"]');
 	if ( li.length == 1 ) {
 		callback(li.attr('data-id'));
 	}
