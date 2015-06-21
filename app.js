@@ -86,7 +86,7 @@
             sortTable.removeClass('hide');
 
             $.each(newTracks, function(i, row) {
-                sortTable.append( '<div class="old">' + oldTracks[i].track.name + '</div><div class="new">' + newTracks[i].track.name + '</div>' );
+                sortTable.append( '<div class="row"></div><div class="old col-xs-6">' + oldTracks[i].track.name + '</div><div class="new col-xs-6">' + newTracks[i].track.name + '</div></div>' );
             });
 
             sortTracks(username, playlistId, oldTracks, newTracks, function(resp) {
@@ -122,7 +122,7 @@
     });
 
 function refreshPlaylists() {
-	
+
     getPlaylists(g_username, function(playlist) {
         console.log('got playlist', playlist);
 
@@ -152,7 +152,7 @@ function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
 
 	sortTable = $('#sort-debug');
     $.each(newTracks, function(i, row) {
-		sortTable.children()[i].html( '<div class="old">' + oldTracks[i].track.name + '</div><div class="new">' + newTracks[i].track.name + '</div>' );
+		sortTable.children()[i].html( '<div class="row"><div class="old col-xs-6">' + oldTracks[i].track.name + '</div><div class="new col-xs-6">' + newTracks[i].track.name + '</div></div>' );
     });
 
 	$.each(newTracks, function (i, row) {
