@@ -86,7 +86,7 @@
             sortTable.removeClass('hide');
 
             $.each(newTracks, function(i, row) {
-                sortTable.append( '<div class="row"></div><div class="old col-xs-6">' + oldTracks[i].track.name + '</div><div class="new col-xs-6">' + newTracks[i].track.name + '</div></div>' );
+                sortTable.append( '<div class="row"><div class="old col-xs-6">' + oldTracks[i].track.name + '</div><div class="new col-xs-6">' + newTracks[i].track.name + '</div></div>' );
             });
 
             sortTracks(username, playlistId, oldTracks, newTracks, function(resp) {
