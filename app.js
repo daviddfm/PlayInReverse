@@ -258,7 +258,7 @@ function getTracksForPlaylist(username, playlist, callback) {
 }
 
 function copyPlaylist(username, element, tracks, callback) {
-	playlist = element.attr('data-name') + ' Copy';
+	playlist = element.parent().attr('data-name') + ' Copy';
 
 	console.log('copyPlaylist', playlist);
 
@@ -281,7 +281,7 @@ function copyPlaylist(username, element, tracks, callback) {
 			'Content-Type': 'application/json'
 		},
 		success: function(r) {
-            setTracksForPlaylist(username, playlist, trackList, callback);
+            setTracksForPlaylist(username, r.id, trackList, callback);
 		},
 		error: function(r) {
             console.log(r.responseText);
