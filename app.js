@@ -156,6 +156,8 @@ function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
 		$('#sort-debug .row').eq(i).html( '<div class="old col-xs-6">' + oldTracks[i].track.name + '</div><div class="new col-xs-6">' + newTracks[i].track.name + '</div>' );
     });
 
+	movedTrack = false;
+
 	$.each(newTracks, function (i, row) {
 		if (row.track.id != oldTracks[i].track.id) {
 			console.log("track " + i + "in wrong position");
@@ -183,11 +185,13 @@ function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
 				}
 			);
 
+			movedTrack = true;
 			return false;
 		}
 	});
 
-	callback(true);
+	if ( ! movedTrack )
+		callback(true);
 }
 
 function moveTrackFromTo(username, playlist, oldI, newI, callback ) {
