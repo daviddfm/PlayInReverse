@@ -73,8 +73,8 @@
 	$(document).on('click', '#playlist-list li a.sort', function (e) {
 		var playlistA = $(this);
 
-		playlistId = $(this).parent.attr('data-id');
-		playlistName = $(this).parent.attr('data-name');
+		playlistId = $(this).parent().attr('data-id');
+		playlistName = $(this).parent().attr('data-name');
 
 		console.log("Sorting " + playlistName);
 		$(this).text(" Sorting... ");
@@ -112,16 +112,16 @@
     $(document).on('click', '#playlist-list li a.copy', function (e) {
         var playlistA = $(this);
 
-        playlistId = $(this).parent.attr('data-id');
-        playlistName = $(this).parent.attr('data-name');
-        username = $(this).parent.attr('data-owner');
+        playlistId = $(this).parent().attr('data-id');
+        playlistName = $(this).parent().attr('data-name');
+        username = $(this).parent().attr('data-owner');
 
         console.log("Copying " + playlistName);
         playlistA.text( "Copying..." );
 
         getTracksForPlaylist(username, playlistId, function(tracks) {
 
-            copyPlaylist(g_username, $(this).parent, tracks, function(resp) {
+            copyPlaylist(g_username, $(this).parent(), tracks, function(resp) {
                 console.log(resp);
                 playlistA.text( "Done" );
                 window.setTimeout(function() {
