@@ -122,7 +122,8 @@
     });
 
 function refreshPlaylists() {
-    getPlaylists(username, function(playlist) {
+	
+    getPlaylists(g_username, function(playlist) {
         console.log('got playlist', playlist);
 
         playlist.items.sort(function(a,b) {
