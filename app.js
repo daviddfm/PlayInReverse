@@ -61,7 +61,7 @@
                     });
 
 					$.each(playlist.items, function(i, row) {
-						$('#playlist-list').append('<li><a href="#" class="btn btn-primary btn-block btn-lg" data-id="' + row.id + '" data-name="' + row.name + '">' + row.name + ' (' + row.tracks.total + ' tracks)</a></li>');
+						$('#playlist-list').append('<li><a href="#" class="sort btn btn-primary btn-block btn-lg" data-id="' + row.id + '" data-name="' + row.name + '">' + row.name + ' (' + row.tracks.total + ' tracks)</a><a href="#" class="copy btn btn-primary btn-lg" data-id="' + row.id + '" data-name="' + row.name + '">Copy</a></li>');
 					});
 					
 					//$('#playlist-list').listview('refresh');
@@ -70,7 +70,7 @@
 		}
 	}
 
-	$(document).on('click', '#playlist-list li a', function (e) {
+	$(document).on('click', '#playlist-list li a.sort', function (e) {
 		var playlistA = $(this);
 
 		playlistId = $(this).attr('data-id');
@@ -108,6 +108,27 @@
 			});
 		});
 	});
+
+    $(document).on('click', '#playlist-list li a.copy', function (e) {
+        var playlistA = $(this);
+
+        playlistId = $(this).attr('data-id');
+        playlistName = $(this).attr('data-name');
+
+        console.log("Copying " + playlistName);
+        playlistA.text( "Copying..." );
+
+        getTracksForPlaylist(g_username, playlistId, function(tracks) {
+
+            copyPlaylist(g_username, playlistId, tracks, function(resp) {
+                console.log(resp);
+                playlistA.text( "Done" );
+                window.setTimeout(function() {
+                    playlistA.text( 'Copy' );
+                }, 3000 );
+            });
+        });
+    });
 
 function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
 	console.log("sortTracks " + playlistId);
@@ -231,18 +252,27 @@ function getTracksForPlaylist(username, playlist, callback) {
 	});
 }
 
-function createOrFindPlaylist(username, playlist, callback) {
-	var li = $('#playlist-list > li > a[data-id="' + playlist + '"');
-	playlist = li.attr('data-name') + ' Now';
+function copyPlaylist(username, playlist, tracks, callback) {
+	var li = $('#playlist-list > li > a.copy[data-id="' + playlist + '"');
+	playlist = li.attr('data-name') + ' Copy';
 
-	console.log('createOrFindPlaylist', playlist);
+	console.log('copyPlaylist', playlist);
 
-	li = $('#playlist-list > li > a[data-name="' + playlist + '"');
+	li = $('#playlist-list > li > a.copy[data-name="' + playlist + '"');
 	if ( li.length == 1 ) {
 		callback(li.attr('data-id'));
 	}
 
-	var url = 'https://api.spotify.com/v1/users/' + username + '/playlists/';
+    var trackList = {
+        uris : []
+    }
+
+    // construct a reversed track list
+    $.each(tracks.items, function(i, row) {
+        trackList.uris.concat(["spotify:track:" + row.track.id]);
+    });
+
+    var url = 'https://api.spotify.com/v1/users/' + username + '/playlists/';
 	$.ajax(url, {
 		method: 'POST',
 		data: JSON.stringify({ name: playlist, public: true}),
@@ -252,13 +282,14 @@ function createOrFindPlaylist(username, playlist, callback) {
 			'Content-Type': 'application/json'
 		},
 		success: function(r) {
-			callback(r.id);
+            setTracksForPlaylist(username, playlist, tracks, callback);
 		},
 		error: function(r) {
             console.log(r.responseText);
 			callback(null);
 		}
 	});
+
 }
 
 function setTracksForPlaylist(username, playlist, tracks, callback) {
