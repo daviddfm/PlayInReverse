@@ -133,6 +133,10 @@
 function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
 	console.log("sortTracks " + playlistId);
 
+    $.each(newTracks, function(i, row) {
+       console.log (oldTracks[i].track.name + ' - ' + newTracks[i].track.name);
+    });
+
 	$.each(newTracks, function (i, row) {
 		if (row.track.id != oldTracks[i].track.id) {
 			console.log("track " + i + "in wrong position");
