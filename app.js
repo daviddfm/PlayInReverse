@@ -45,27 +45,8 @@
 			getUsername(function(username) {
 				console.log('got username', username);
 				g_username = username;
-				
-				getPlaylists(username, function(playlist) {
-					console.log('got playlist', playlist);
 
-                    playlist.items.sort(function(a,b) {
-                        if (a.name > b.name) {
-                            return 1;
-                        }
-                        if (a.name < b.name) {
-                            return -1;
-                        }
-                        // a must be equal to b
-                        return 0;
-                    });
-
-					$.each(playlist.items, function(i, row) {
-						$('#playlist-list').append('<li><div class="btn-group btn-group-justified" data-owner="' + row.owner.id + '" data-id="' + row.id + '" data-name="' + row.name + '"><a href="#" class="sort btn btn-primary btn-lg">' + row.name + ' (' + row.tracks.total + ' tracks) v</a><a href="#" class="copy btn btn-primary btn-lg">Copy</a></div></li>');
-					});
-					
-					//$('#playlist-list').listview('refresh');
-				});
+                refreshPLaylists();
 			});
 		}
 	}
@@ -98,9 +79,17 @@
 				return 0;
 			});
 
-			var didSort;
+            $('#playlist-list').addClass('hide');
 
-			sortTracks(username, playlistId, oldTracks, newTracks, function(resp) {
+            sortTable = $('#sort-debug');
+            sortTable.html('');
+            sortTable.removeClass('hide');
+
+            $.each(newTracks, function(i, row) {
+                sortTable.append( '<div class="old">' + oldTracks[i].track.name + '</div><div class="new">' + newTracks[i].track.name + '</div>' );
+            });
+
+            sortTracks(username, playlistId, oldTracks, newTracks, function(resp) {
 				console.log(resp);
 				playlistA.text( "Sorted" );
 				window.setTimeout(function() {
@@ -132,11 +121,37 @@
         });
     });
 
+function refreshPlaylists() {
+    getPlaylists(username, function(playlist) {
+        console.log('got playlist', playlist);
+
+        playlist.items.sort(function(a,b) {
+            if (a.name > b.name) {
+                return 1;
+            }
+            if (a.name < b.name) {
+                return -1;
+            }
+            // a must be equal to b
+            return 0;
+        });
+
+        $('#playlist-list').html('');
+
+        $.each(playlist.items, function(i, row) {
+            $('#playlist-list').append('<li><div class="btn-group btn-group-justified" data-owner="' + row.owner.id + '" data-id="' + row.id + '" data-name="' + row.name + '"><a href="#" class="sort btn btn-primary btn-lg">' + row.name + ' (' + row.tracks.total + ' tracks) v</a><a href="#" class="copy btn btn-primary btn-lg">Copy</a></div></li>');
+        });
+
+        //$('#playlist-list').listview('refresh');
+    });
+}
+
 function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
 	console.log("sortTracks " + playlistId);
 
+	sortTable = $('#sort-debug');
     $.each(newTracks, function(i, row) {
-       console.log (oldTracks[i].track.name + ' - ' + newTracks[i].track.name);
+		sortTable.children()[i].html( '<div class="old">' + oldTracks[i].track.name + '</div><div class="new">' + newTracks[i].track.name + '</div>' );
     });
 
 	$.each(newTracks, function (i, row) {
@@ -182,7 +197,7 @@ function moveTrackFromTo(username, playlist, oldI, newI, callback ) {
 
     callback(url);
     return;
-    
+
 	$.ajax(url, {
 		method: 'PUT',
 		data: json,
