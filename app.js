@@ -61,7 +61,7 @@
                     });
 
 					$.each(playlist.items, function(i, row) {
-						$('#playlist-list').append('<li><div class="btn-group btn-group-justified" data-owner="' + row.owner.id + '" data-id="' + row.id + '" data-name="' + row.name + '"><a href="#" class="sort btn btn-primary btn-lg">' + row.name + ' (' + row.tracks.total + ' tracks)</a><a href="#" class="copy btn btn-primary btn-lg">Copy</a></div></li>');
+						$('#playlist-list').append('<li><div class="btn-group btn-group-justified" data-owner="' + row.owner.id + '" data-id="' + row.id + '" data-name="' + row.name + '"><a href="#" class="sort btn btn-primary btn-lg">Sort ' + row.name + ' (' + row.tracks.total + ' tracks)</a><a href="#" class="copy btn btn-primary btn-lg">Copy</a></div></li>');
 					});
 					
 					//$('#playlist-list').listview('refresh');
