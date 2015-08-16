@@ -264,13 +264,13 @@ function getTracksForPlaylist(username, playlist, callback) {
 
 	var consolidatedr = null;
 	var getNextTracks = function(r) {
-		if (r.next != null) {
-			if ( consolidatedr == null ) {
-				consolidatedr = r;
-			} else {
-				consolidatedr.items.add(r.items);
-			}
+		if ( consolidatedr == null ) {
+			consolidatedr = r;
+		} else {
+			consolidatedr.items.add(r.items);
+		}
 
+		if (r.next != null) {
 			$.ajax(r.next, {
 				method: 'GET',
 				headers: {
@@ -284,7 +284,7 @@ function getTracksForPlaylist(username, playlist, callback) {
 				}
 			})
 		} else {
-			callback(consolidatedr ? consolidatedr : r);
+			callback(consolidatedr);
 		}
 	};
 
