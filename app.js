@@ -267,7 +267,7 @@ function getTracksForPlaylist(username, playlist, callback) {
 		if ( consolidatedr == null ) {
 			consolidatedr = r;
 		} else {
-			consolidatedr.items.add(r.items);
+			consolidatedr.items = consolidatedr.items.concat(r.items);
 		}
 
 		if (r.next != null) {
