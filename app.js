@@ -261,7 +261,7 @@ function getPlaylists(username, callback) {
 
 function getTracksForPlaylist(username, playlist, callback) {
 	console.log('getTracksForPlaylist', username, playlist);
-	var url = 'https://api.spotify.com/v1/users/' + username + '/playlists/' + playlist + '/tracks?limit=140';
+	var url = 'https://api.spotify.com/v1/users/' + username + '/playlists/' + playlist + '/tracks?offset=0&limit=200';
 		
 	$.ajax(url, {
 		method: 'GET',
