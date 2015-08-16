@@ -343,23 +343,34 @@ function setTracksForPlaylist(username, playlist, tracks, callback) {
 	console.log('setTracksForPlaylist', tracks, playlist);
 
     var url = 'https://api.spotify.com/v1/users/' + username + '/playlists/' + playlist + '/tracks';
+	var last = 0;
 
-    $.ajax(url, {
-        method: 'PUT',
-        data: JSON.stringify(tracks),
-        headers: {
-            'Authorization': 'Bearer ' + g_access_token,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        success: function(r) {
-            callback(r);
-        },
-        error: function(r) {
-            console.log(r.responseText);
-            callback(null);
-        }
-    });
+	var postNext = function (r) {
+		if ( last < tracks.length ) {
+
+			var part = tracks.slice(last, last + 100);
+			last += 100;
+
+			$.ajax(url, {
+				method: 'PUT',
+				data: JSON.stringify(part),
+				headers: {
+					'Authorization': 'Bearer ' + g_access_token,
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				success: postNext,
+				error: function(r) {
+					console.log(r.responseText);
+					callback(null);
+				}
+			});
+		}
+
+		callback(r);
+	};
+
+	postNext(null);
 }
 
 })(window);
