@@ -346,14 +346,18 @@ function setTracksForPlaylist(username, playlist, tracks, callback) {
 	var last = 0;
 
 	var postNext = function (r) {
-		if ( last < tracks.length ) {
+		if ( last < tracks.uris.length ) {
 
-			var part = tracks.slice(last, last + 100);
+			var page = {
+				uris : []
+			};
+
+			page.uris = tracks.uris.slice(last, last + 100);
 			last += 100;
 
 			$.ajax(url, {
 				method: 'PUT',
-				data: JSON.stringify(part),
+				data: JSON.stringify(page),
 				headers: {
 					'Authorization': 'Bearer ' + g_access_token,
 					'Accept': 'application/json',
