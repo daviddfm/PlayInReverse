@@ -259,7 +259,35 @@ function getPlaylists(username, callback) {
 	});
 }
 
+
 function getTracksForPlaylist(username, playlist, callback) {
+
+	var consolidatedr = null;
+	var getNextTracks = function(r) {
+		if (r.next != null) {
+			if ( consolidatedr == null ) {
+				consolidatedr = r;
+			} else {
+				consolidatedr.items.add(r.items);
+			}
+
+			$.ajax(r.next, {
+				method: 'GET',
+				headers: {
+					'Authorization': 'Bearer ' + g_access_token,
+					'Accept': 'application/json'
+				},
+				success: getNextTracks,
+				error: function (r) {
+					console.log(r.responseText);
+					callback(null);
+				}
+			})
+		} else {
+			callback(consolidatedr ? consolidatedr : r);
+		}
+	};
+
 	console.log('getTracksForPlaylist', username, playlist);
 	var url = 'https://api.spotify.com/v1/users/' + username + '/playlists/' + playlist + '/tracks';
 		
@@ -269,9 +297,7 @@ function getTracksForPlaylist(username, playlist, callback) {
 			'Authorization': 'Bearer ' + g_access_token,
 			'Accept': 'application/json'
 		},
-		success: function(r) {
-			callback(r);
-		},
+		success: getNextTracks,
 		error: function(r) {
             console.log(r.responseText);
 			callback(null);
