@@ -356,7 +356,7 @@ function setTracksForPlaylist(username, playlist, tracks, callback) {
 			last += 100;
 
 			$.ajax(url, {
-				method: 'PUT',
+				method: 'POST',
 				data: JSON.stringify(page),
 				headers: {
 					'Authorization': 'Bearer ' + g_access_token,
