@@ -162,8 +162,9 @@ function sortTracks(username, playlistId, oldTracks, newTracks, callback) {
 		if (row.track.id != oldTracks[i].track.id) {
 			console.log("track " + i + "in wrong position");
 
+			// Find old position of track based on added_at which is unique
 			var iOld = oldTracks.findIndex(function ( element, index, array ) {
-					return ( element.track.id == row.track.id );
+					return ( element.track.id == row.track.id && element.added_at == row.added_at );
 				});
 
 			moveTrackFromTo(
